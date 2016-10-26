@@ -1,12 +1,17 @@
 FROM ubuntu:14.04
 MAINTAINER sparklyballs
 
+# set version label
+ARG BUILD_DATE
+ARG VERSION
+LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+
 # build environment settings
 ARG PERL5LIB="/app/perl"
 ARG DEBIAN_FRONTEND="noninteractive"
 
 # set version for s6 overlay
-ARG OVERLAY_VERSION="v1.18.1.3"
+ARG OVERLAY_VERSION="v1.18.1.5"
 
 # global environment settings
 ENV HOME="/root" TERM="xterm"

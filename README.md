@@ -1,14 +1,23 @@
-![https://linuxserver.io](https://www.linuxserver.io/wp-content/uploads/2015/06/linuxserver_medium.png)
+[linuxserverurl]: https://linuxserver.io
+[forumurl]: https://forum.linuxserver.io
+[ircurl]: https://www.linuxserver.io/irc/
+[podcasturl]: https://www.linuxserver.io/podcast/
 
-The [LinuxServer.io](https://linuxserver.io) team brings you another container release featuring easy user mapping and community support. Find us for support at:
-* [forum.linuxserver.io](https://forum.linuxserver.io)
-* [IRC](https://www.linuxserver.io/index.php/irc/) on freenode at `#linuxserver.io`
-* [Podcast](https://www.linuxserver.io/index.php/category/podcast/) covers everything to do with getting the most from your Linux Server plus a focus on all things Docker and containerisation!
+[![linuxserver.io](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/linuxserver_medium.png)][linuxserverurl]
 
-# lsiodev/musicbrainz
-![](https://raw.githubusercontent.com/linuxserver/beta-templates/master/lsiodev/img/musicbrainzgitlogo.jpg)
+The [LinuxServer.io][linuxserverurl] team brings you another container release featuring easy user mapping and community support. Find us for support at:
+* [forum.linuxserver.io][forumurl]
+* [IRC][ircurl] on freenode at `#linuxserver.io`
+* [Podcast][podcasturl] covers everything to do with getting the most from your Linux Server plus a focus on all things Docker and containerisation!
 
-MusicBrainz is an open music encyclopedia that collects music metadata and makes it available to the public. [Musicbrainz](https://musicbrainz.org/)
+# linuxserver/musicbrainz
+[![](https://images.microbadger.com/badges/version/linuxserver/musicbrainz.svg)](https://microbadger.com/images/linuxserver/musicbrainz "Get your own version badge on microbadger.com")[![](https://images.microbadger.com/badges/image/linuxserver/musicbrainz.svg)](http://microbadger.com/images/linuxserver/musicbrainz "Get your own image badge on microbadger.com")[![Docker Pulls](https://img.shields.io/docker/pulls/linuxserver/musicbrainz.svg)][hub][![Docker Stars](https://img.shields.io/docker/stars/linuxserver/musicbrainz.svg)][hub][![Build Status](http://jenkins.linuxserver.io:8080/buildStatus/icon?job=Dockers/LinuxServer.io/linuxserver-musicbrainz)](http://jenkins.linuxserver.io:8080/job/Dockers/job/LinuxServer.io/job/linuxserver-musicbrainz/)
+[hub]: https://hub.docker.com/r/linuxserver/musicbrainz/
+
+[MusicBrainz][brainzurl] is an open music encyclopedia that collects music metadata and makes it available to the public.
+
+[![musicbrainz](https://raw.githubusercontent.com/linuxserver/beta-templates/master/lsiodev/img/musicbrainzgitlogo.jpg)][brainzurl]
+[brainzurl]: https://musicbrainz.org/
 
 ## Usage
 
@@ -21,10 +30,16 @@ docker create --name=musicbrainz \
 -e TZ=<timezone> \
 -e MAX_WORKERS=<n cores> \
 -p 5000:5000 \
-lsiodev/musicbrainz
+linuxserver/musicbrainz
 ```
 
-**Parameters**
+## Parameters
+
+`The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. 
+For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container.
+So -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080
+http://192.168.x.x:8080 would show you what's running INSIDE the container on port 80.`
+
 
 * `-p 5000` - the port(s)
 * `-v /config` - config files for musicbrainz
@@ -54,13 +69,24 @@ In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as bel
 * The initial import and setup of the database can take quite a long time, dependant on your download speed etc, be patient and don't restart the container before it's complete.
 * It appears there are issues with unraid and using /mnt/user/cache/appdata instead of /mnt/cache/appdata, use /mnt/cache/appdata.
 
-## Logs and shell
+## Info
 * To monitor the logs of the container in realtime `docker logs -f musicbrainz`.
 * Shell access whilst the container is running: `docker exec -it musicbrainz /bin/bash`
 
+* container version number 
+
+`docker inspect -f '{{ index .Config.Labels "build_version" }}' musicbrainz`
+
+* image version number
+
+`docker inspect -f '{{ index .Config.Labels "build_version" }}' linuxserver/musicbrainz`
 
 ## Versions
 
++ **14.10.16:** Add version layer information.
++ **30.09.16:** Fix umask.
++ **10.09.16:** Add layer badges to README.
++ **28.08.16:** Add badges to README, move to main repository.
 + **20.07.16:** Restructure of docker file for clarity, add maxworkers variable in conjunction with starlet,
 for parallel requests in multi-core setups, thanks to user baoshan. 
 + **03.06.16:** Complete rewrite due to schema change. Rebased back to 14.04 direct Using S6 overaly.
@@ -72,6 +98,4 @@ for parallel requests in multi-core setups, thanks to user baoshan.
 move fetch of db/dump higher up initialise routine to allow easier resume of broken downloads.
 + **15.12.15:** Per latest musicbrainz blog, switched to production branch,
 latest stable code is now production branch in place of master.
-+ **10.12.15:** Initial release date 
-
-
++ **10.12.15:** Initial release date
