@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER sparklyballs
+MAINTAINER sparklyballs, ajw107 (Alex Wood)
 
 # set version label
 ARG BUILD_DATE
@@ -14,7 +14,7 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG OVERLAY_VERSION="v1.18.1.5"
 
 # global environment settings
-ENV HOME="/root" TERM="xterm"
+ENV HOME="/root"
 ENV LANG="en_US.UTF-8" LANGUAGE="en_US:en"
 ENV PGCONF="/config" PG_MAJOR="9.5" DATA_ROOT="/data"
 ENV PATH="/usr/lib/postgresql/${PG_MAJOR}/bin:$PATH"
@@ -23,6 +23,8 @@ ENV URL_ROOT="ftp://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport"
 ENV POSTGRES_LOGS_FIFO="/var/run/s6/postgres-logs-fifo"
 ENV BABEL_DISABLE_CACHE="1"
 ENV MAX_WORKERS="1"
+#make life easy for yourself
+ENV TERM=xterm-color
 
 # copy files required in build stage
 COPY prebuilds/ /defaults/
@@ -41,7 +43,7 @@ RUN \
 	/etc/apt/sources.list.d/pgdg.list && \
  apt-get update -q && \
  apt-get install -y \
-	postgresql-common && \
+	postgresql-common nano && \
 	sed -ri 's/#(create_main_cluster) .*$/\1 = false/' \
 	/etc/postgresql-common/createcluster.conf && \
 
@@ -138,6 +140,7 @@ RUN \
 
 # add local files
 COPY root/ /
+RUN chmod +x /usr/bin/ll
 
 # configure cron
 RUN \
