@@ -50,7 +50,7 @@ http://192.168.x.x:8080 would show you what's running INSIDE the container on po
 * `-e TZ` - timezone eg Europe/London
 * `-e MAX_WORKERS` Advanced optional configuration for parallel requests.
 
-It is based on ubuntu trusty with S6 overlay, for shell access whilst the container is running do `docker exec -it musicbrainz /bin/bash`.
+It is based on alpine linux with S6 overlay, for shell access whilst the container is running do `docker exec -it musicbrainz /bin/bash`.
 
 ### User / Group Identifiers
 
